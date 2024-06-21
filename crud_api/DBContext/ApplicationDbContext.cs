@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using crud_api.Models;
 
-namespace crud_api.Models;
+namespace crud_api.DBContext;
 
-public partial class BhautikchanganiDbContext : DbContext
+public partial class ApplicationDbContext : DbContext
 {
-    public BhautikchanganiDbContext()
+    public ApplicationDbContext()
     {
     }
 
-    public BhautikchanganiDbContext(DbContextOptions<BhautikchanganiDbContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
@@ -26,6 +27,8 @@ public partial class BhautikchanganiDbContext : DbContext
     public virtual DbSet<Employee> Employees { get; set; }
 
     public virtual DbSet<Employee1> Employee1s { get; set; }
+
+    public virtual DbSet<Manager1> Manager1s { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
@@ -45,7 +48,7 @@ public partial class BhautikchanganiDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=192.168.0.5;User ID=bhautik;Password=u9Xzkmzd;Database=bhautikchangani_db;Trusted_Connection=False;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("Server=192.168.0.5;Database=bhautikchangani_db;User Id=bhautik;Password=u9Xzkmzd;Encrypt=true;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -168,6 +171,25 @@ public partial class BhautikchanganiDbContext : DbContext
             entity.HasOne(d => d.Dept).WithMany(p => p.Employee1s)
                 .HasForeignKey(d => d.DeptId)
                 .HasConstraintName("FK__employee__dept_i__4AB81AF0");
+
+            entity.HasOne(d => d.Mngr).WithMany(p => p.Employee1s)
+                .HasForeignKey(d => d.MngrId)
+                .HasConstraintName("FK__employee1__mngr___03F0984C");
+        });
+
+        modelBuilder.Entity<Manager1>(entity =>
+        {
+            entity.HasKey(e => e.MngrId).HasName("PK__Manager1__A22B1BC3D31042F5");
+
+            entity.ToTable("Manager1");
+
+            entity.Property(e => e.MngrId)
+                .ValueGeneratedNever()
+                .HasColumnName("mngr_id");
+            entity.Property(e => e.MngrName)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasColumnName("mngr_name");
         });
 
         modelBuilder.Entity<Order>(entity =>
