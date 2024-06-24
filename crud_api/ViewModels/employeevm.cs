@@ -1,6 +1,6 @@
 ﻿namespace crud_api.ViewModels
 {
-    public class employeevm
+    public class EmployeeVM
     {
         public int? EmpId { get; set; }
 

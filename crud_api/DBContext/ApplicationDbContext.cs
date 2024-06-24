@@ -18,6 +18,8 @@ public partial class ApplicationDbContext : DbContext
 
     public virtual DbSet<Category> Categories { get; set; }
 
+    public virtual DbSet<Column> Columns { get; set; }
+
     public virtual DbSet<Customer> Customers { get; set; }
 
     public virtual DbSet<Customer1> Customer1s { get; set; }
@@ -62,6 +64,22 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.CategoryName).HasMaxLength(15);
             entity.Property(e => e.Description).HasColumnType("ntext");
             entity.Property(e => e.Picture).HasColumnType("image");
+        });
+
+        modelBuilder.Entity<Column>(entity =>
+        {
+            entity.HasKey(e => e.ColumnId).HasName("PK__columns__E301851FD13CAD09");
+
+            entity.ToTable("columns");
+
+            entity.Property(e => e.ColumnId)
+                .ValueGeneratedNever()
+                .HasColumnName("column_id");
+            entity.Property(e => e.ColumnName)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("column_name");
+            entity.Property(e => e.PageId).HasColumnName("page_id");
         });
 
         modelBuilder.Entity<Customer>(entity =>

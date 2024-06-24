@@ -21,9 +21,9 @@ namespace crud_api.Controllers
         }
         
         [HttpGet(Name = "Getemployee")]
-        public List<employeevm> GetUsers()
+        public List<EmployeeVM> GetUsers()
         {
-            List<employeevm> data = new List<employeevm>();
+            List<EmployeeVM> data = new List<EmployeeVM>();
             var listofData = _context.Employee1s.Include(x => x.Dept).Include(x => x.Mngr).ToList();
            
             foreach (var item in listofData)
@@ -48,7 +48,7 @@ namespace crud_api.Controllers
             return Json(data);
         }
         [HttpPost(Name = "UpdateEmployee")]
-        public async Task UpdateUsersData([FromBody] employeevm employee)
+        public async Task UpdateUsersData([FromBody] EmployeeVM employee)
         {
             Department1 department = _context.Department1s.FirstOrDefault(x => x.DeptName == employee.DeptName);
             Manager1 manager = _context.Manager1s.FirstOrDefault(x => x.MngrName == employee.MngrName);
@@ -61,7 +61,7 @@ namespace crud_api.Controllers
             _context.SaveChanges();
         }
         [HttpPost]
-        public void CreateUser([FromBody] employeevm employee)
+        public void CreateUser([FromBody] EmployeeVM employee)
         {
             Department1 department = _context.Department1s.FirstOrDefault(x => x.DeptName == employee.DeptName);
             Manager1 manager = _context.Manager1s.FirstOrDefault(x => x.MngrName == employee.MngrName);
@@ -82,7 +82,6 @@ namespace crud_api.Controllers
         [HttpPost(Name ="DeleteEmployee")]
         public void DeleteUser([FromBody] Employee1 employee)
         {
-           /* Employee1 employee1 = _context.Employee1s.FirstOrDefault(x => x.EmpId == employee.EmpId);*/
             _context.Remove(employee);
             _context.SaveChanges();
         }
@@ -95,6 +94,29 @@ namespace crud_api.Controllers
         public List<Manager1> GetManagerList()
         {
             return _context.Manager1s.ToList();
+        }
+        [HttpPost]
+        public void DeleteSelectedUsers([FromBody] List<Employee1> employees)
+        {
+            _context.Employee1s.RemoveRange(employees);
+            _context.SaveChanges();
+        }
+        [HttpPost]
+        public void AddColumn()
+        {
+            Column clm = new Column()
+            {
+                ColumnId = 5,
+                ColumnName = "Salary",
+                PageId = 1,
+            };
+            _context.Columns.Add(clm);
+            _context.SaveChanges();
+        }
+        [HttpGet]
+        public List<Column> GetColumnList()
+        {
+            return _context.Columns.ToList();
         }
 
     }
