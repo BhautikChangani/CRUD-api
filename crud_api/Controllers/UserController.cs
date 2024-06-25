@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using crud_api.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http.Extensions;
 
 
 namespace crud_api.Controllers
@@ -101,22 +102,18 @@ namespace crud_api.Controllers
             _context.Employee1s.RemoveRange(employees);
             _context.SaveChanges();
         }
-        [HttpPost]
+       /* [HttpPost]
         public void AddColumn()
         {
-            Column clm = new Column()
-            {
-                ColumnId = 5,
-                ColumnName = "Salary",
-                PageId = 1,
-            };
-            _context.Columns.Add(clm);
+            Column clm = _context.Columns.FirstOrDefault(x => x.ColumnId == 5);
+            clm.ColumnTitle = "Salary";
+            _context.Columns.Update(clm);
             _context.SaveChanges();
-        }
+        }*/
         [HttpGet]
-        public List<Column> GetColumnList()
+        public List<Column> GetColumnList(int id)
         {
-            return _context.Columns.ToList();
+            return _context.Columns.Where(x => x.PageId == id).ToList();
         }
 
     }

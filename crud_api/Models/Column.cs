@@ -10,4 +10,6 @@ public partial class Column
     public int? PageId { get; set; }
 
     public string? ColumnName { get; set; }
+
+    public string? ColumnTitle { get; set; }
 }

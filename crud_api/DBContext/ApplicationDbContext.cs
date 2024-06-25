@@ -79,6 +79,10 @@ public partial class ApplicationDbContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("column_name");
+            entity.Property(e => e.ColumnTitle)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("column_title");
             entity.Property(e => e.PageId).HasColumnName("page_id");
         });
 
