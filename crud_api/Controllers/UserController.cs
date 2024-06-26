@@ -102,14 +102,19 @@ namespace crud_api.Controllers
             _context.Employee1s.RemoveRange(employees);
             _context.SaveChanges();
         }
-       /* [HttpPost]
+       [HttpPost]
         public void AddColumn()
         {
-            Column clm = _context.Columns.FirstOrDefault(x => x.ColumnId == 5);
-            clm.ColumnTitle = "Salary";
-            _context.Columns.Update(clm);
+            Column clm = new Column()
+            {
+                ColumnId = 10,
+                PageId = 2,
+                ColumnName = "AdminAst",
+                ColumnTitle = "Admin assistant",
+            };
+            _context.Columns.Add(clm);
             _context.SaveChanges();
-        }*/
+        }
         [HttpGet]
         public List<Column> GetColumnList(int id)
         {
